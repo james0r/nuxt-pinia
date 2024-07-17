@@ -1,8 +1,10 @@
 import { createClient } from "@libsql/client";
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const client = createClient({
-  url: "libsql://nuxt-pinia-james0r.turso.io",
-  authToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjExNDU1MjcsImlkIjoiMTJlNTk0YzQtMjEzNC00MzBjLTllYzYtMzAzMzc4N2I1ZDc3In0.DE8MddDOcU9l3Im6TB8bF42GWZ7JNZSAUXCXcNYGNje5qAl8Y7-5HeVTrGXKS4HQIyH_TWJHbo12TD1hUoaECg"
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
 });
 
 const todos = [
@@ -25,8 +27,6 @@ async function main() {
       args: [todo.text, todo.completed],
     })),
   ]
-
-  console.log(statements)
 
   await client.batch(statements, 'write')
 

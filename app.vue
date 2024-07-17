@@ -14,7 +14,7 @@
         'py-12'
       ])">
         <NuxtLink to="/">Home</NuxtLink>
-        <NuxtLink to="/todo">Todo</NuxtLink>
+        <NuxtLink to="/todos">Todo</NuxtLink>
         <NuxtLink to="/counter">Counter</NuxtLink>
       </nav>
       <NuxtPage />
