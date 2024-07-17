@@ -24,6 +24,7 @@
 
       <v-list-item
         v-for="(todo, i) in todos.filter(todo => !todo.completed)"
+        class="flex items-center"
         hide-details
         density="compact"
         :key="i"
@@ -36,6 +37,14 @@
           :model-value="!!todo.completed"
           readonly
         ></v-checkbox>
+        <template v-slot:append>
+          <v-btn
+            @click.stop="removeTodo(todo.id)"
+            size="x-small"
+          >
+            Remove
+          </v-btn>
+        </template>
       </v-list-item>
     </v-list>
   </v-card>
@@ -60,6 +69,14 @@
           :model-value="!!todo.completed"
           readonly
         ></v-checkbox>
+        <template v-slot:append>
+          <v-btn
+            @click.stop="removeTodo(todo.id)"
+            size="x-small"
+          >
+            Remove
+          </v-btn>
+        </template>
       </v-list-item>
     </v-list>
   </v-card>
@@ -89,12 +106,27 @@ const addTodo = async () => {
 
 const updateTodo = async (todo) => {
   console.log(todo)
-  
+
   todo.completed == 0 ? todo.completed = 1 : todo.completed = 0;
 
   const newRows = await $fetch('/api/todos.update', {
     method: 'POST',
     body: JSON.stringify({ id: todo.id, completed: todo.completed }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  todos.value = [...newRows];
+};
+
+const removeTodo = async (id) => {
+
+  console.log(id)
+
+  const newRows = await $fetch('/api/todos.remove', {
+    method: 'POST',
+    body: JSON.stringify({ id: id }),
     headers: {
       'Content-Type': 'application/json'
     }

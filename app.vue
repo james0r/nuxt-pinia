@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <NuxtRouteAnnouncer />
-    <div class="max-w-md mx-auto w-full">
+    <div class="max-w-md mx-auto w-full px-6 sm:px-8">
       <nav :class="cn([
         'flex',
         'mx-auto',
