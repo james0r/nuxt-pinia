@@ -27,13 +27,14 @@
         hide-details
         density="compact"
         :key="i"
-        :value="todo"
         color="primary"
+        @click="updateTodo(todo)"
       >
         <v-checkbox
           hide-details
           :label="todo.text"
-          v-model="todo.completed"
+          :model-value="!!todo.completed"
+          readonly
         ></v-checkbox>
       </v-list-item>
     </v-list>
@@ -50,13 +51,14 @@
         hide-details
         density="compact"
         :key="i"
-        :value="todo"
         color="primary"
+        @click="updateTodo(todo)"
       >
         <v-checkbox
           hide-details
           :label="todo.text"
-          v-model="todo.completed"
+          :model-value="!!todo.completed"
+          readonly
         ></v-checkbox>
       </v-list-item>
     </v-list>
@@ -79,10 +81,26 @@ const addTodo = async () => {
         'Content-Type': 'application/json'
       }
     });
-    
+
     newTodo.value = '';
     todos.value = [...newRows];
   }
+};
+
+const updateTodo = async (todo) => {
+  console.log(todo)
+  
+  todo.completed == 0 ? todo.completed = 1 : todo.completed = 0;
+
+  const newRows = await $fetch('/api/todos.update', {
+    method: 'POST',
+    body: JSON.stringify({ id: todo.id, completed: todo.completed }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  todos.value = [...newRows];
 };
 
 // const removeTodo = (index) => {
